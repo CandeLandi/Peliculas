@@ -68,6 +68,34 @@ const cargarTitulos = (resultados) => {
 
 };
 
+const contenedorGeneros = document.getElementById('filtro-generos');
+
+const cargarGeneros = async (filtro) => {
+    contenedorGeneros.innerHTML = '';
+    
+    const generos = await fetchGeneros(filtro);
+    generos.forEach((genero) => {
+        const btn = document.createElement('button');
+        btn.classList.add('btn');
+        btn.innerText = genero.name;
+        btn.setAttribute('data-id', genero.id);
+        contenedorGeneros.appendChild(btn);
+    });
+};
+
+const filtroPelicula = document.getElementById('movie');
+const filtroShow = document.getElementById('tv');
+
+filtroPelicula.addEventListener('click', (e) => {
+    e.preventDefault();
+
+});
+filtroShow.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    cargarGeneros();
+});
+
 const cargar = async() => {
 	// Obtenemos los resultados.
 	const resultados = await fetchPopulares('movie');
@@ -75,6 +103,7 @@ const cargar = async() => {
 	if (resultados) {
 		// Los cargamos en el DOM.
 		cargarTitulos(resultados);
+		cargarGeneros();
 	}
 };
 cargar();
